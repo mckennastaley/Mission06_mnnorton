@@ -11,11 +11,13 @@ namespace Mission06_mnnorton.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private MovieContext _MovieContext { get; set; }
+
+        //Construcotr
+        public HomeController(MovieContext someMovie)
         {
-            _logger = logger;
+            _MovieContext = someMovie;
         }
 
         public IActionResult Index()
@@ -32,6 +34,9 @@ namespace Mission06_mnnorton.Controllers
         [HttpPost]
         public IActionResult Movie (ApplicationResponse ar)
         {
+            _MovieContext.Add(ar);
+            _MovieContext.SaveChanges();
+
             return View("confirmation");
         }
 
@@ -40,15 +45,11 @@ namespace Mission06_mnnorton.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult MovieList()
         {
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+
     }
 }

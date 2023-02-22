@@ -1,16 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Mission06_mnnorton.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+using Microsoft.EntityFrameworkCore;
 namespace Mission06_mnnorton
 {
     public class Startup
@@ -29,7 +23,7 @@ namespace Mission06_mnnorton
 
             services.AddDbContext<MovieContext>(options =>
            {
-               options.UseSqlite(Configuration["ConnectStrings:MovieConnection"]);
+               options.UseSqlite(Configuration["ConnectionStrings:MovieConnection"]);
            });
         }
 

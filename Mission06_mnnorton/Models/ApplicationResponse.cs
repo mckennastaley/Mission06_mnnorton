@@ -11,7 +11,9 @@ namespace Mission06_mnnorton.Models
         [Key]
         [Required]
         public int MovieID { get; set; }
+        [Required]
         public string MovieTitle { get; set; }
+        [Required]
         public string Rating { get; set; }
         public bool Edited { get; set; }
         public string LentTo { get; set; }
