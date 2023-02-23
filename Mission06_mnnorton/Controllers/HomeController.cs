@@ -77,6 +77,7 @@ namespace Mission06_mnnorton.Controllers
         [HttpPost]
         public IActionResult Edit(ApplicationResponse blahmovie)
         {
+
             _MovieContext.Update(blahmovie);
             _MovieContext.SaveChanges();
             return RedirectToAction("MovieList");
@@ -86,6 +87,23 @@ namespace Mission06_mnnorton.Controllers
         public IActionResult Delete()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int movieid)
+        {
+            var movie = _MovieContext.Responses.Single(x => x.MovieID == movieid);
+
+            return View(movie);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(ApplicationResponse ar)
+        {
+            _MovieContext.Responses.Remove(ar);
+            _MovieContext.SaveChanges();
+
+            return RedirectToAction("MovieList");
         }
     }
 }
