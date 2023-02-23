@@ -36,10 +36,19 @@ namespace Mission06_mnnorton.Controllers
         [HttpPost]
         public IActionResult Movie (ApplicationResponse ar)
         {
-            _MovieContext.Add(ar);
-            _MovieContext.SaveChanges();
+            if(ModelState.IsValid)
+            {
+                _MovieContext.Add(ar);
+                _MovieContext.SaveChanges();
 
-            return View("confirmation");
+                return View("confirmation");
+            }
+            else //invalid
+            {
+                ViewBag.Categories = _MovieContext.Categories.ToList();
+                return View(ar);
+            }
+            
         }
 
         public IActionResult Podcast()
@@ -56,5 +65,27 @@ namespace Mission06_mnnorton.Controllers
             return View(MovieList);
         }
 
+        [HttpGet]
+        public IActionResult Edit(int movieid)
+        {
+            ViewBag.Categories = _MovieContext.Categories.ToList();
+            var entry = _MovieContext.Responses.Single(x => x.MovieID == movieid);
+
+            return View("Movie", entry);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(ApplicationResponse blahmovie)
+        {
+            _MovieContext.Update(blahmovie);
+            _MovieContext.SaveChanges();
+            return RedirectToAction("MovieList");
+
+        }
+
+        public IActionResult Delete()
+        {
+            return View();
+        }
     }
 }
