@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mission06_mnnorton.Models;
 using System;
@@ -28,6 +29,7 @@ namespace Mission06_mnnorton.Controllers
         [HttpGet]
         public IActionResult Movie ()
         {
+            ViewBag.Categories = _MovieContext.Categories.ToList();
             return View();
         }
 
@@ -47,9 +49,12 @@ namespace Mission06_mnnorton.Controllers
 
         public IActionResult MovieList()
         {
-            return View();
+            var MovieList = _MovieContext.Responses.
+                Include(x => x.Category).
+                OrderBy(x => x.MovieTitle).
+                ToList();
+            return View(MovieList);
         }
-
 
     }
 }
